@@ -5,15 +5,21 @@ from transformers import pipeline
 from flask import Flask, request, jsonify
 
 app = Flask(__name__)
-
+home_path = os.path.expanduser("~")
 __dir__ = os.path.dirname(__file__)
 
 # Initialize the spam classifier outside of the Flask application
 spam_classifier_generator = pipeline(model="lokas/spam-usernames-classifier")
 
+
+
+
 # Read the API key from the config file
+config_path = os.path.join(home_path, 'config.ini')
+# Read the configuration file
 config = configparser.ConfigParser()
-config.read('config.ini')
+config.read(config_path)
+
 api_key = config['API']['key']
 
 
