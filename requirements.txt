@@ -2,3 +2,4 @@ Jinja2==3.1.2
 Flask==2.2.2
 MarkupSafe~=2.1.2
 mwparserfromhell == 0.6.4
+configparser==3.5.0
