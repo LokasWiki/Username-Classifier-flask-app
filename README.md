@@ -23,3 +23,10 @@ Deploy on Toolforge
     webservice --backend=kubernetes  --mem 4Gi --cpu 1 python3.9 start
     ```
     
+### Generate a random API key
+
+- ```
+    webservice --backend=kubernetes  python3.9 shell
+    python3 -c "import secrets;api_key = secrets.token_hex(16);print(api_key)" 
+    exit
+  ```
