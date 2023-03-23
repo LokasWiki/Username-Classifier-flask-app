@@ -2,7 +2,6 @@ import os
 
 from markupsafe import escape
 from transformers import pipeline
-import pytorch
 
 from flask import Flask, render_template, request, url_for, abort, request, url_for, flash, redirect
 
