@@ -15,7 +15,7 @@ Deploy on Toolforge
     python -m pip install pyyaml
     python -m pip install 'transformers[torch]' --no-cache-dir
     pip install -r $HOME/www/python/src/requirements.txt
-    python -c "from transformers import pipeline; print(pipeline(model="lokas/spam-usernames-classifier")('I love you'))"
+    python -c "from transformers import pipeline; generator = pipeline(model='lokas/spam-usernames-classifier');print(generator(['I love you']))"
     exit
     ```
     
