@@ -1,6 +1,3 @@
-LokasBot website
-==========
-
 Deploy on Toolforge
 -------------------
 
