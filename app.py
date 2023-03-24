@@ -32,13 +32,21 @@ def index():
 
 @app.route('/predict', methods=['POST'])
 def predict_view():
+
     # Check if the API key is present in the request header
     api_key_header = request.headers.get('X-Api-Key')
     if api_key_header != api_key:
         return {"message": "Unauthorized"}, 401
 
+    # Parse the request data as JSON
+    req_data = request.get_json()
+
+    # Check if the request data is None or empty
+    if not req_data:
+        return {"message": "Request data is empty or not in JSON format"}, 400
+
     # Extract the list of usernames from the request body
-    usernames = request.json.get('usernames', [])
+    usernames = req_data['usernames'] if 'usernames' in req_data else []
 
     # Check if the list of usernames is empty
     if not usernames:
