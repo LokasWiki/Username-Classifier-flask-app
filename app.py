@@ -8,12 +8,6 @@ app = Flask(__name__)
 home_path = os.path.expanduser("~")
 __dir__ = os.path.dirname(__file__)
 
-# Initialize the spam classifier outside of the Flask application
-spam_classifier_generator = pipeline(model="lokas/spam-usernames-classifier")
-
-
-
-
 # Read the API key from the config file
 config_path = os.path.join(home_path, 'config.ini')
 # Read the configuration file
@@ -22,6 +16,14 @@ config.read(config_path)
 
 api_key = config['API']['key']
 
+# Initialize the spam classifier outside of the Flask application
+spam_classifier_generator = None
+
+@app.before_first_request
+def load_model():
+    # Load the spam classifier outside of the Flask application
+    global spam_classifier_generator
+    spam_classifier_generator = pipeline(model="lokas/spam-usernames-classifier")
 
 @app.route('/')
 def index():
@@ -38,11 +40,15 @@ def predict_view():
     # Extract the list of usernames from the request body
     usernames = request.json.get('usernames', [])
 
+    # Check if the list of usernames is empty
+    if not usernames:
+        return {"message": "Empty list of usernames"}, 400
+
     # Run the spam classifier on each username and return the results
     predictions = spam_classifier_generator(usernames)
     results = [{"username": username, "prediction": prediction} for username, prediction in zip(usernames, predictions)]
     return {"results": results}
 
 
-if __name__ == "main":
+if __name__ == "__main__":
     app.run()
